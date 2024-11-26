@@ -1,0 +1,28 @@
+{
+    "fileList": [
+        {
+            "name": "ceshi.txt",
+            "value": "programs/ceshi.txt"
+        },
+        {
+            "name": "ceshi2.txt",
+            "value": "programs/ceshi2.txt"
+        },
+        {
+            "name": "ceshi2.txt",
+            "value": "ceshi2"
+        },
+        {
+            "name": "lilei.txt",
+            "value": "programs/modules/lilei/lll.txt"
+        },
+        {
+            "name": "ceshi3333.txt",
+            "value": "programs/modules/ceshi3333.txt"
+        }
+    ],
+    "defaultSelectedFiles": [
+        "programs/ceshi2.txt",
+        "ceshi2"
+    ]
+}
