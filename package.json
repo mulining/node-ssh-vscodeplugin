@@ -1,75 +1,52 @@
 {
-  "name": "ssh",
-  "version": "1.0.0",
-  "description": "",
-  "main": "src/ssh-publish.plugin.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [
-    "vscode",
-    "plugin",
-    "upload",
-    "ssh2",
-    "server"
-  ],
+  "name": "ssh-publish",
+  "displayName": "ssh-publish",
+  "description": "ssh-upload-file",
+  "version": "0.0.1",
   "engines": {
-    "node": ">=14.0.0 <=20.18.0",
-    "vscode": "^1.85.0"
+    "vscode": "^1.95.0"
   },
-  "author": "Mulin",
-  "repository":  "https://github.com/mulining/node-ssh-vscodeplugin",
-  "license": "ISC",
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "ssh-publish.helloWorld",
+        "title": "Hello World"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run package",
+    "compile": "webpack",
+    "watch": "webpack --watch",
+    "package": "webpack --mode production --devtool hidden-source-map",
+    "compile-tests": "tsc -p . --outDir out",
+    "watch-tests": "tsc -p . -w --outDir out",
+    "pretest": "npm run compile-tests && npm run compile && npm run lint",
+    "lint": "eslint src",
+    "test": "vscode-test"
+  },
+  "devDependencies": {
+    "@types/mocha": "^10.0.9",
+    "@types/node": "20.x",
+    "@types/vscode": "^1.95.0",
+    "@typescript-eslint/eslint-plugin": "^8.10.0",
+    "@typescript-eslint/parser": "^8.7.0",
+    "@vscode/test-cli": "^0.0.10",
+    "@vscode/test-electron": "^2.4.1",
+    "eslint": "^9.13.0",
+    "ts-loader": "^9.5.1",
+    "typescript": "^5.6.3",
+    "webpack": "^5.95.0",
+    "webpack-cli": "^5.1.4"
+  },
   "dependencies": {
     "fs-extra": "^11.2.0",
     "inquirer": "^12.1.0",
     "ssh2": "^1.16.0"
-  },
-  "devDependencies": {
-    "vscode": "^1.1.37"
-  },
-  "activationEvents": [
-        "onCommand:ssh2-upload-plugin.uploadFile",
-        "onCommand:ssh2-upload-plugin.uploadDirectory",
-        "onCommand:ssh2-upload-plugin.editConfig",
-        "onCommand"
-  ],
-  "contributes": {
-    "commands": [
-      {
-        "command": "ssh2-upload-plugin.editConfig",
-        "title": "Edit Server Configurations"
-      },
-      {
-        "command": "ssh2-upload-plugin.uploadFile",
-        "title": "Upload File to Server"
-      },
-      {
-        "command": "ssh2-upload-plugin.uploadDirectory",
-        "title": "Upload Directory Contents to Server"
-      }
-    ],
-    "menus": {
-      "editor/context": [
-        {
-          "command": "ssh2-upload-plugin.uploadFile",
-          "group": "navigation"
-        },
-        {
-          "command": "ssh2-upload-plugin.uploadDirectory",
-          "group": "navigation"
-        }
-      ]
-    },
-    "configuration": {
-      "title": "SSH2 Upload Plugin Configuration",
-      "properties": {
-        "ssh2-upload-plugin.configFile": {
-          "type": "string",
-          "default": "file_config.json",
-          "description": "Path to the configuration file for the SSH2 Upload Plugin."
-        }
-      }
-    }
   }
 }
