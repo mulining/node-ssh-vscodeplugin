@@ -1,4 +1,16 @@
 {
+    "serverConfigs": [
+        {
+            "host": "172.24.28.179",
+            "port": 22,
+            "username": "mulin",
+            "password": "123456",
+            "remotePaths": [
+                "/home/TEClient/dir1/",
+                "/home/TEClient/dir2/"
+            ]
+        }
+    ],
     "fileList": [
         {
             "name": "ceshi.txt",

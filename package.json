@@ -2,15 +2,74 @@
   "name": "ssh",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
-  "type": "module",
+  "main": "src/ssh-publish.plugin.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "keywords": [
+    "vscode",
+    "plugin",
+    "upload",
+    "ssh2",
+    "server"
+  ],
+  "engines": {
+    "node": ">=14.0.0 <=20.18.0",
+    "vscode": "^1.85.0"
+  },
+  "author": "Mulin",
+  "repository":  "https://github.com/mulining/node-ssh-vscodeplugin",
   "license": "ISC",
   "dependencies": {
+    "fs-extra": "^11.2.0",
     "inquirer": "^12.1.0",
     "ssh2": "^1.16.0"
+  },
+  "devDependencies": {
+    "vscode": "^1.1.37"
+  },
+  "activationEvents": [
+        "onCommand:ssh2-upload-plugin.uploadFile",
+        "onCommand:ssh2-upload-plugin.uploadDirectory",
+        "onCommand:ssh2-upload-plugin.editConfig",
+        "onCommand"
+  ],
+  "contributes": {
+    "commands": [
+      {
+        "command": "ssh2-upload-plugin.editConfig",
+        "title": "Edit Server Configurations"
+      },
+      {
+        "command": "ssh2-upload-plugin.uploadFile",
+        "title": "Upload File to Server"
+      },
+      {
+        "command": "ssh2-upload-plugin.uploadDirectory",
+        "title": "Upload Directory Contents to Server"
+      }
+    ],
+    "menus": {
+      "editor/context": [
+        {
+          "command": "ssh2-upload-plugin.uploadFile",
+          "group": "navigation"
+        },
+        {
+          "command": "ssh2-upload-plugin.uploadDirectory",
+          "group": "navigation"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "SSH2 Upload Plugin Configuration",
+      "properties": {
+        "ssh2-upload-plugin.configFile": {
+          "type": "string",
+          "default": "file_config.json",
+          "description": "Path to the configuration file for the SSH2 Upload Plugin."
+        }
+      }
+    }
   }
 }

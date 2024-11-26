@@ -1,5 +1,7 @@
-import { Client } from 'ssh2';
-import path from 'path';
+// import { Client } from 'ssh2';
+// import path from 'path';
+const { Client } =  require('ssh2');
+const path = require('path');
 
 // 创建一个包含所有SSH相关工具方法的对象
 const ssh2Utils = {
