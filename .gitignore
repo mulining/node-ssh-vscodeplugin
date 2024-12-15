@@ -8,3 +8,4 @@ Thumbs.db
 ssh_tools.jsonc
 dist/
 out/
+.vscode-test
