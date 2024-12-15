@@ -1,1 +1,11 @@
 node_modules
+.DS_Store
+.git 
+.svn 
+.DS_Store
+Thumbs.db 
+.idea
+ssh_tools.jsonc
+dist/
+out/
+.vscode-test
