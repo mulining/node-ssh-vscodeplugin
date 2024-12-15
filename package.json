@@ -2,22 +2,79 @@
   "name": "ssh-publish",
   "displayName": "ssh-publish",
   "description": "ssh-upload-file",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "engines": {
     "vscode": "^1.95.0"
   },
   "categories": [
     "Other"
   ],
-  "activationEvents": [],
+  "author": "Mulin",
+  "repository": "https://github.com/mulining/node-ssh-vscodeplugin",
+  "activationEvents": [
+    "workspaceContains:**"
+  ],
   "main": "./dist/extension.js",
   "contributes": {
     "commands": [
       {
-        "command": "ssh-publish.helloWorld",
-        "title": "Hello World"
+        "command": "ssh2-upload-plugin.editConfig",
+        "title": "ssh2编辑配置文件"
+      },
+      {
+        "command": "ssh2-upload-plugin.uploadFile",
+        "title": "ssh2上传文件到服务器"
+      },
+      {
+        "command": "ssh2-upload-plugin.uploadDirectory",
+        "title": "ssh2上传目录到服务器"
+      },
+      {
+        "command": "ssh2-upload-plugin.upload",
+        "title": "ssh2上传"
       }
-    ]
+    ],
+    "menus": {
+      "explorer/context": [
+        {
+          "command": "ssh2-upload-plugin.upload",
+          "group": "navigation",
+          "when": "true"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "SSH2服务器配置",
+      "properties": {
+        "ssh2UploadPlugin.serverConfigs": {
+          "type": "array",
+          "default": [
+            {
+              "name": "服务器1号",
+              "host": "172.31.8.82",
+              "port": "22",
+              "username": "mulin",
+              "password": "123456",
+              "remoteDirPaths": [
+                "/home/TEClient/dir1",
+                "/home/TEClient/dir2"
+              ]
+            }
+          ],
+          "description": "ssh2服务器配置列表."
+        },
+        "ssh2UploadPlugin.localBasePath": {
+          "type": "string",
+          "default": "E:/myPrograges/ztkj/programs",
+          "description": "ssh2配置本地根目录."
+        },
+        "ssh2UploadPlugin.localPubBasePath": {
+          "type": "string",
+          "default": "E:/myPrograges/ztkj/",
+          "description": "ssh2配置本地根目录."
+        }
+      }
+    }
   },
   "scripts": {
     "vscode:prepublish": "npm run package",
@@ -39,6 +96,8 @@
     "@vscode/test-cli": "^0.0.10",
     "@vscode/test-electron": "^2.4.1",
     "eslint": "^9.13.0",
+    "node-loader": "^2.1.0",
+    "ssh2-sftp-client": "^11.0.0",
     "ts-loader": "^9.5.1",
     "typescript": "^5.6.3",
     "webpack": "^5.95.0",
