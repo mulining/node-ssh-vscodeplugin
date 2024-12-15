@@ -7,3 +7,4 @@ Thumbs.db
 .idea
 ssh_tools.jsonc
 dist/
+out/
