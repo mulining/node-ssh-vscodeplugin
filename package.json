@@ -83,7 +83,7 @@
           "default": [
             {
               "name": "服务器1号",
-              "host": "172.31.8.82",
+              "host": "172.24.112.117",
               "port": "22",
               "username": "mulin",
               "password": "123456",
@@ -97,23 +97,36 @@
         },
         "ssh2UploadPlugin.localBasePath": {
           "type": "string",
-          "default": "E:/myPrograges/ztkj/programs",
+          "default": "E:/myPrograges/ztkj/TEClient",
           "description": "ssh2配置本地根目录."
         },
         "ssh2UploadPlugin.localPubBasePath": {
           "type": "string",
-          "default": "E:/myPrograges/ztkj/",
+          "default": "E:/myPrograges/ztkj/TEClient",
           "description": "ssh2配置本地工程根目录."
         },
         "ssh2UploadPlugin.localCompliePath": {
           "type": "string",
-          "default": "../client/release/workspace",
+          "default": "../client/release/workspace/TEClient",
           "description": "ssh2配置本地编译后代码的根目录(相对于本地工程，相对路径)."
         },
         "ssh2UploadPlugin.cssFilePath": {
           "type": "string",
           "default": "TEClientFM/styles/czbank/index.css",
           "description": "ssh2配置本地工程编译后的css所在位置。"
+        },
+        "ssh2UploadPlugin.directUploadFiles": {
+          "type": "array",
+          "default": [
+            "*.jpg",
+            "*.png",
+            "*.gif",
+            "*.svg",
+            "*.ico",
+            "*.json",
+            "*.aft"
+          ],
+          "description": "ssh2配置直接上传的文件(非编译后的文件)。"
         }
       }
     }
