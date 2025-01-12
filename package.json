@@ -103,7 +103,17 @@
         "ssh2UploadPlugin.localPubBasePath": {
           "type": "string",
           "default": "E:/myPrograges/ztkj/",
-          "description": "ssh2配置本地根目录."
+          "description": "ssh2配置本地工程根目录."
+        },
+        "ssh2UploadPlugin.localCompliePath": {
+          "type": "string",
+          "default": "../client/release/workspace",
+          "description": "ssh2配置本地编译后代码的根目录(相对于本地工程，相对路径)."
+        },
+        "ssh2UploadPlugin.cssFilePath": {
+          "type": "string",
+          "default": "TEClientFM/styles/czbank/index.css",
+          "description": "ssh2配置本地工程编译后的css所在位置。"
         }
       }
     }

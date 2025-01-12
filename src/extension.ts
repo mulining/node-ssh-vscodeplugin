@@ -16,6 +16,51 @@ function getConfigs() {
     return vscode.workspace.getConfiguration('ssh2UploadPlugin') || null;
 }
 
+// 获取指定目录对应的编译后目录路径（假设编译后的文件存放在原项目目录同级的'dist'目录下，可根据实际情况调整）
+function getCompiledDirPath(localDirPath) {
+    const projectDir = vscode.workspace.workspaceFolders[0].uri.fsPath; // 当前工程更目录
+    let relativeDir = path.relative(projectDir, localDirPath);    // 当前工程相对目录
+    const config = getConfigs();
+    let compiledDir = '';
+    if(config.localCompliePath) { // 该值存在则标识需要部署编译后的文件
+        compiledDir = path.join(projectDir, config.localCompliePath);
+        console.log('编译后的目录：', compiledDir);
+        const ext = path.extname(relativeDir);
+        if(['.css', '.scss', '.less'].includes(ext) && config.cssFilePath) {
+            return path.join(projectDir, config.cssFilePath);
+        } else {
+            relativeDir = relativeDir.replace('.vue', '.vue.js').replace('.ts', '.js').replace('.scss', '.css').replace('.less', '.css');
+        }
+    } else {
+        compiledDir = path.join(projectDir);
+        console.log('原始目录：', compiledDir);
+    }
+    return path.join(compiledDir, relativeDir);
+}
+
+async function getFileList(localDirPath) {
+    const localFiles = await vscode.workspace.fs.readDirectory(vscode.Uri.file(localDirPath));
+    const filePaths = [];
+    console.log('这里是选中目录的所有文件列表：', localFiles);
+    for (const [name, fileType] of localFiles) {
+        const currentPath = vscode.Uri.joinPath(vscode.Uri.file(localDirPath), name);
+        if (fileType === vscode.FileType.File) {
+            filePaths.push(currentPath.fsPath);
+        } else if (fileType === vscode.FileType.Directory) {
+            const subDirectoryFilePaths = await getFileList(currentPath.fsPath);
+            filePaths.push(...subDirectoryFilePaths);
+        }
+    }
+    return filePaths;
+}
+
+async function handleFileList(localDirPath) {
+    const list = await getFileList(localDirPath);
+    const newFileList = list.map(item => getCompiledDirPath(item));
+    console.log('生成编译后文件的路径：', newFileList);
+    return newFileList;
+}
+
 // 上传指定文件到多个服务器
 async function uploadFileToServerWithContext(localFilePath: string, config) {
     const localBasePath = config.localBasePath;
@@ -140,6 +185,8 @@ function registerContextMenuCommands() {
                     if(fsStat.isFile()) {
                         await uploadFileToServerWithContext(localFilePath, config);
                     } else {
+                        const localFilePaths = await handleFileList(localFilePath);
+                        console.log(localFilePaths);
                         await uploadDirectoryContentsToServerWithContext(localFilePath, config);
                     }
                 };
