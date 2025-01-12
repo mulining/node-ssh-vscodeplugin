@@ -1,16 +1,134 @@
 {
-  "name": "ssh",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "type": "module",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "name": "ssh-publish",
+  "displayName": "ssh-publish",
+  "description": "ssh-upload-file",
+  "version": "0.0.2",
+  "engines": {
+    "vscode": "^1.95.0"
   },
-  "author": "",
-  "license": "ISC",
+  "categories": [
+    "Other"
+  ],
+  "author": "Mulin",
+  "repository": "https://github.com/mulining/node-ssh-vscodeplugin",
+  "activationEvents": [
+    "workspaceContains:**"
+  ],
+  "main": "./dist/extension.js",
+  "scripts": {
+    "vscode:prepublish": "npm run package",
+    "compile": "webpack",
+    "watch": "webpack --watch",
+    "package": "webpack --mode production --devtool hidden-source-map",
+    "compile-tests": "tsc -p . --outDir out",
+    "watch-tests": "tsc -p . -w --outDir out",
+    "pretest": "npm run compile-tests && npm run compile && npm run lint",
+    "lint": "eslint src",
+    "test": "vscode-test"
+  },
+  "devDependencies": {
+    "@types/mocha": "^10.0.9",
+    "@types/node": "20.x",
+    "@types/vscode": "^1.95.0",
+    "@typescript-eslint/eslint-plugin": "^8.10.0",
+    "@typescript-eslint/parser": "^8.7.0",
+    "@vscode/test-cli": "^0.0.10",
+    "@vscode/test-electron": "^2.4.1",
+    "eslint": "^9.13.0",
+    "node-loader": "^2.1.0",
+    "ssh2-sftp-client": "^11.0.0",
+    "ts-loader": "^9.5.1",
+    "typescript": "^5.6.3",
+    "webpack": "^5.95.0",
+    "webpack-cli": "^5.1.4"
+  },
   "dependencies": {
+    "fs-extra": "^11.2.0",
     "inquirer": "^12.1.0",
     "ssh2": "^1.16.0"
+  },
+  "contributes": {
+    "commands": [
+      {
+        "command": "ssh2-upload-plugin.editConfig",
+        "title": "ssh2编辑配置文件"
+      },
+      {
+        "command": "ssh2-upload-plugin.uploadFile",
+        "title": "ssh2上传文件到服务器"
+      },
+      {
+        "command": "ssh2-upload-plugin.uploadDirectory",
+        "title": "ssh2上传目录到服务器"
+      },
+      {
+        "command": "ssh2-upload-plugin.upload",
+        "title": "ssh2上传"
+      }
+    ],
+    "menus": {
+      "explorer/context": [
+        {
+          "command": "ssh2-upload-plugin.upload",
+          "group": "navigation",
+          "when": "true"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "SSH2服务器配置",
+      "properties": {
+        "ssh2UploadPlugin.serverConfigs": {
+          "type": "array",
+          "default": [
+            {
+              "name": "服务器1号",
+              "host": "172.24.112.117",
+              "port": "22",
+              "username": "mulin",
+              "password": "123456",
+              "remoteDirPaths": [
+                "/home/TEClient/dir1",
+                "/home/TEClient/dir2"
+              ]
+            }
+          ],
+          "description": "ssh2服务器配置列表."
+        },
+        "ssh2UploadPlugin.localBasePath": {
+          "type": "string",
+          "default": "E:/myPrograges/ztkj/TEClient",
+          "description": "ssh2配置本地根目录."
+        },
+        "ssh2UploadPlugin.localPubBasePath": {
+          "type": "string",
+          "default": "E:/myPrograges/ztkj/TEClient",
+          "description": "ssh2配置本地工程根目录."
+        },
+        "ssh2UploadPlugin.localCompliePath": {
+          "type": "string",
+          "default": "../client/release/workspace/TEClient",
+          "description": "ssh2配置本地编译后代码的根目录(相对于本地工程，相对路径)."
+        },
+        "ssh2UploadPlugin.cssFilePath": {
+          "type": "string",
+          "default": "TEClientFM/styles/czbank/index.css",
+          "description": "ssh2配置本地工程编译后的css所在位置。"
+        },
+        "ssh2UploadPlugin.directUploadFiles": {
+          "type": "array",
+          "default": [
+            "*.jpg",
+            "*.png",
+            "*.gif",
+            "*.svg",
+            "*.ico",
+            "*.json",
+            "*.aft"
+          ],
+          "description": "ssh2配置直接上传的文件(非编译后的文件)。"
+        }
+      }
+    }
   }
 }

@@ -1,12 +1,14 @@
 import { Client } from 'ssh2';
 import path from 'path';
+// const { Client } = require('ssh2');
+// const path = require('path');
 
 // 创建一个包含所有SSH相关工具方法的对象
 const ssh2Utils = {
     // 连接到SSH服务器并返回连接对象（支持async/await）
     connectSSH: async function (serverConfig) {
         const conn = new Client();
-
+        console.log("config service", serverConfig);
         return new Promise((resolve, reject) => {
             conn.on('ready', () => {
                 console.log('- ssh 链接成功...');
@@ -114,8 +116,8 @@ const ssh2Utils = {
             const uploadPromise = new Promise((resolve, reject) => {
                 sftp.fastPut(localFileP, remoteFilePath, (err) => {
                     if (err) {
-                        console.log(err)
-                        if (err.code === 'ENOENT' || err.code == 2) {
+                        console.log(err);
+                        if (err.code === 'ENOENT' || err.code === 2) {
                             reject(new Error(`- 文件 ${localFileP} 在本地不存在，请检查路径是否正确。`));
                         } else if (err.code === 'EPERM') {
                             reject(new Error(`- 上传文件 ${localFileP} 到服务器 ${conn.config.host} 时权限不足，请检查相关权限设置。`));
